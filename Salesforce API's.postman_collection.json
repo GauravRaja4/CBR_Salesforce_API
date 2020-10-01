@@ -1,0 +1,2938 @@
+{
+	"info": {
+		"_postman_id": "6b01d396-5b21-4270-9660-43ec36aa4676",
+		"name": "Salesforce API's",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Upsert Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ea83e852-3800-4a98-9d09-493abe49da32",
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"var json = JSON.parse(responseBody);\r",
+							"var ACCT_Id;\r",
+							"pm.globals.set(\"ACCT_Id\", json.account_response.id);\r",
+							"//ACCT_Id=json.account_response.id;\r",
+							"\r",
+							" pm.test(\"Account is upserted successfully in salesforce - True\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Account is upserted successfully in salesforce\");\r",
+							"});\r",
+							"pm.test(\"Account Id Length is 18 characters\", function(){pm.expect(json.account_response.id.length).to.equal(18);});\r",
+							"console.log(ACCT_Id);\r",
+							"\r",
+							"var schema = {\r",
+							"                \"type\":\"object\",\r",
+							"                \"properties\": {\r",
+							"                    \"account_response\":{\r",
+							"                        \"type\":\"object\",\r",
+							"                        \"properties\":{\r",
+							"                            \"status\":{\"type\":\"string\"},\r",
+							"                            \"id\":{\"type\":\"string\"}\r",
+							"                        },\r",
+							"                        \"required\":[\"status\",\"id\"],\r",
+							"                         \"additionalProperties\": false\r",
+							"                    },\r",
+							"                },\r",
+							"                \"required\":[\"account_response\"],\r",
+							"                 \"additionalProperties\": false\r",
+							"    };\r",
+							"\r",
+							"\r",
+							"pm.test('Validate Schema', function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);  \r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "049943e8-a977-46a8-aab7-369b0c14babc",
+						"exec": [
+							"\r",
+							"var s1=[\"Alabama\",\"Alaska\",\"Arizona\",\"Arkansas\",\"Armed Forces Europe\",\"California\",\r",
+							"\"Colorado\",\r",
+							"\"Connecticut\",\r",
+							"\"Delaware\",\r",
+							"\"District of Columbia\",\r",
+							"\"Florida\",\r",
+							"\"Georgia\",\r",
+							"\"Guam\",\r",
+							"\"Hawaii\",\r",
+							"\"Idaho\",\r",
+							"\"Illinois\",\r",
+							"\"Indiana\",\r",
+							"\"Iowa\",\r",
+							"\"Kansas\",\r",
+							"\"Kentucky\",\r",
+							"\"Louisiana\",\r",
+							"\"Maine\",\r",
+							"\"Maryland\",\r",
+							"\"Massachusetts\",\r",
+							"\"Michigan\",\r",
+							"\"Minnesota\",\r",
+							"\"Mississippi\",\r",
+							"\"Missouri\",\r",
+							"\"Montana\",\r",
+							"\"Nebraska\",\r",
+							"\"Nevada\",\r",
+							"\"New Hampshire\",\r",
+							"\"New Jersey\",\r",
+							"\"New Mexico\",\r",
+							"\"New York\",\r",
+							"\"North Carolina\",\r",
+							"\"North Dakota\",\r",
+							"\"Ohio\",\r",
+							"\"Oklahoma\",\r",
+							"\"Oregon\",\r",
+							"\"Pennsylvania\",\r",
+							"\"Puerto Rico\",\r",
+							"\"Rhode Island\",\r",
+							"\"South Carolina\",\r",
+							"\"South Dakota\",\r",
+							"\"Tennessee\",\r",
+							"\"Texas\",\r",
+							"\"US Virgin Islands\",\r",
+							"\"Utah\",\r",
+							"\"Vermont\",\r",
+							"\"Virginia\",\r",
+							"\"Washington\",\r",
+							"\"West Virginia\",\r",
+							"\"Wisconsin\",\r",
+							"\"Wyoming\"];\r",
+							"var count=0;\r",
+							"for (var i=0; i<s1.length;i++)\r",
+							"{\r",
+							"    if(s1[i]==pm.globals.get(\"billingState\"))\r",
+							"    \r",
+							"    {\r",
+							"        count++;\r",
+							"        break;\r",
+							"    }\r",
+							"}\r",
+							"console.log(count);\r",
+							"if(count==1)\r",
+							"{\r",
+							"pm.test(\"Billing State True\",function(){pm.expect(count).to.equal(1);});\r",
+							"console.log(pm.globals.get(\"billingState\"));\r",
+							"\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"pm.test(\"Invalid Billing State\",function(){pm.expect(count).to.equal(0);});\r",
+							"console.log(pm.globals.get(\"billingState\"), \"not found\");\r",
+							"}\r",
+							"var s2=[\"Afghanistan\",\r",
+							"\"Aland Islands\",\r",
+							"\"Albania\",\r",
+							"\"Algeria\",\r",
+							"\"Andorra\",\r",
+							"\"Angola\",\r",
+							"\"Anguilla\",\r",
+							"\"Antarctica\",\r",
+							"\"Antigua and Barbuda\",\r",
+							"\"Argentina\",\r",
+							"\"Armenia\",\r",
+							"\"Aruba\",\r",
+							"\"Australia\",\r",
+							"\"Austria\",\r",
+							"\"Azerbaijan\",\r",
+							"\"Bahamas\",\r",
+							"\"Bahrain\",\r",
+							"\"Bangladesh\",\r",
+							"\"Barbados\",\r",
+							"\"Belarus\",\r",
+							"\"Belgium\",\r",
+							"\"Belize\",\r",
+							"\"Benin\",\r",
+							"\"Bermuda\",\r",
+							"\"Bhutan\",\r",
+							"\"Bolivia\",\r",
+							"\"Bonaire, Sint Eustatius and Saba\",\r",
+							"\"Bosnia and Herzegovina\",\r",
+							"\"Botswana\",\r",
+							"\"Bouvet Island\",\r",
+							"\"Brazil\",\r",
+							"\"British Indian Ocean Territory\",\r",
+							"\"British Virgin Islands\",\r",
+							"\"Brunei Darussalam\",\r",
+							"\"Bulgaria\",\r",
+							"\"Burkina Faso\",\r",
+							"\"Burundi\",\r",
+							"\"Cambodia\",\r",
+							"\"Cameroon\",\r",
+							"\"Canada\",\r",
+							"\"Cape Verde\",\r",
+							"\"Cayman Islands\",\r",
+							"\"Central African Republic\",\r",
+							"\"Chad\",\r",
+							"\"Chile\",\r",
+							"\"China\",\r",
+							"\"Chinese Taipei\",\r",
+							"\"Christmas Island\",\r",
+							"\"Cocos (Keeling) Islands\",\r",
+							"\"Colombia\",\r",
+							"\"Comoros\",\r",
+							"\"Congo\",\r",
+							"\"Congo, the Democratic Republic of the\",\r",
+							"\"Cook Islands\",\r",
+							"\"Costa Rica\",\r",
+							"\"Cote d'Ivoire\",\r",
+							"\"Croatia\",\r",
+							"\"Curacao\",\r",
+							"\"Cyprus\",\r",
+							"\"Czech Republic\",\r",
+							"\"Denmark\",\r",
+							"\"Djibouti\",\r",
+							"\"Dominica\",\r",
+							"\"Dominican Republic\",\r",
+							"\"Ecuador\",\r",
+							"\"Egypt\",\r",
+							"\"El Salvador\",\r",
+							"\"Equatorial Guinea\",\r",
+							"\"Eritrea\",\r",
+							"\"Estonia\",\r",
+							"\"Ethiopia\",\r",
+							"\"Falkland Islands (Malvinas)\",\r",
+							"\"Faroe Islands\",\r",
+							"\"Federated States of Micronesia\",\r",
+							"\"Fiji\",\r",
+							"\"Finland\",\r",
+							"\"France\",\r",
+							"\"French Guiana\",\r",
+							"\"French Polynesia\",\r",
+							"\"French Southern Territories\",\r",
+							"\"Gabon\",\r",
+							"\"Gambia\",\r",
+							"\"Georgia\",\r",
+							"\"Germany\",\r",
+							"\"Ghana\",\r",
+							"\"Gibraltar\",\r",
+							"\"Greece\",\r",
+							"\"Greenland\",\r",
+							"\"Grenada\",\r",
+							"\"Guadeloupe\",\r",
+							"\"Guatemala\",\r",
+							"\"Guernsey\",\r",
+							"\"Guinea\",\r",
+							"\"Guinea-Bissau\",\r",
+							"\"Guyana\",\r",
+							"\"Haiti\",\r",
+							"\"Heard Island and McDonald Islands\",\r",
+							"\"Holy See (Vatican City State)\",\r",
+							"\"Honduras\",\r",
+							"\"Hong Kong\",\r",
+							"\"Hungary\",\r",
+							"\"Iceland\",\r",
+							"\"India\",\r",
+							"\"Indonesia\",\r",
+							"\"Iran, Islamic Republic of\",\r",
+							"\"Iraq\",\r",
+							"\"Ireland\",\r",
+							"\"Isle of Man\",\r",
+							"\"Israel\",\r",
+							"\"Italy\",\r",
+							"\"Jamaica\",\r",
+							"\"Japan\",\r",
+							"\"Jersey\",\r",
+							"\"Jordan\",\r",
+							"\"Kazakhstan\",\r",
+							"\"Kenya\",\r",
+							"\"Kiribati\",\r",
+							"\"Korea, Democratic People's Rep\",\r",
+							"\"Korea, Republic of\",\r",
+							"\"Kuwait\",\r",
+							"\"Kyrgyzstan\",\r",
+							"\"Lao People's Democratic Republic\",\r",
+							"\"Latvia\",\r",
+							"\"Lebanon\",\r",
+							"\"Lesotho\",\r",
+							"\"Liberia\",\r",
+							"\"Libyan Arab Jamahiriya\",\r",
+							"\"Liechtenstein\",\r",
+							"\"Lithuania\",\r",
+							"\"Luxembourg\",\r",
+							"\"Macao\",\r",
+							"\"Macedonia, the former Yugoslav Republic of\",\r",
+							"\"Madagascar\",\r",
+							"\"Malawi\",\r",
+							"\"Malaysia\",\r",
+							"\"Maldives\",\r",
+							"\"Mali\",\r",
+							"\"Malta\",\r",
+							"\"Marshall Islands\",\r",
+							"\"Martinique\",\r",
+							"\"Mauritania\",\r",
+							"\"Mauritius\",\r",
+							"\"Mayotte\",\r",
+							"\"Mexico\",\r",
+							"\"Micronesia, Federated States o\",\r",
+							"\"Moldova, Republic of\",\r",
+							"\"Monaco\",\r",
+							"\"Mongolia\",\r",
+							"\"Montenegro\",\r",
+							"\"Montserrat\",\r",
+							"\"Morocco\",\r",
+							"\"Mozambique\",\r",
+							"\"Myanmar\",\r",
+							"\"Namibia\",\r",
+							"\"Nauru\",\r",
+							"\"Nepal\",\r",
+							"\"Netherlands\",\r",
+							"\"Netherlands Antilles\",\r",
+							"\"New Caledonia\",\r",
+							"\"New Zealand\",\r",
+							"\"Nicaragua\",\r",
+							"\"Niger\",\r",
+							"\"Nigeria\",\r",
+							"\"Niue\",\r",
+							"\"Norfolk Island\",\r",
+							"\"Northern Mariana Islands\",\r",
+							"\"Norway\",\r",
+							"\"Oman\",\r",
+							"\"Pakistan\",\r",
+							"\"Palestinian Territory, Occupied\",\r",
+							"\"Panama\",\r",
+							"\"Papua New Guinea\",\r",
+							"\"Paraguay\",\r",
+							"\"Peru\",\r",
+							"\"Philippines\",\r",
+							"\"Pitcairn\",\r",
+							"\"Poland\",\r",
+							"\"Portugal\",\r",
+							"\"Puerto Rico (US)\",\r",
+							"\"Qatar\",\r",
+							"\"Reunion\",\r",
+							"\"Romania\",\r",
+							"\"Russia\",\r",
+							"\"Rwanda\",\r",
+							"\"Saint Barthélemy\",\r",
+							"\"Saint Helena, Ascension and Tristan da Cunha\",\r",
+							"\"Saint Kitts and Nevis\",\r",
+							"\"Saint Lucia\",\r",
+							"\"Saint Martin (French part)\",\r",
+							"\"Saint Pierre and Miquelon\",\r",
+							"\"Saint Vincent and the Grenadines\",\r",
+							"\"Samoa\",\r",
+							"\"San Marino\",\r",
+							"\"Sao Tome and Principe\",\r",
+							"\"Saudi Arabia\",\r",
+							"\"Senegal\",\r",
+							"\"Serbia\",\r",
+							"\"Serbia and Montenegro\",\r",
+							"\"Seychelles\",\r",
+							"\"Sierra Leone\",\r",
+							"\"Singapore\",\r",
+							"\"Sint Maarten (Dutch part)\",\r",
+							"\"Slovakia\",\r",
+							"\"Slovenia\",\r",
+							"\"Solomon Islands\",\r",
+							"\"Somalia\",\r",
+							"\"South Africa\",\r",
+							"\"South Georgia and the South Sandwich Islands\",\r",
+							"\"South Sudan\",\r",
+							"\"Spain\",\r",
+							"\"Sri Lanka\",\r",
+							"\"Suriname\",\r",
+							"\"Svalbard and Jan Mayen\",\r",
+							"\"Swaziland\",\r",
+							"\"Sweden\",\r",
+							"\"Switzerland\",\r",
+							"\"Taiwan, Province of China\",\r",
+							"\"Tajikistan\",\r",
+							"\"Tanzania, United Republic of\",\r",
+							"\"Thailand\",\r",
+							"\"Timor-Leste\",\r",
+							"\"Togo\",\r",
+							"\"Tokelau\",\r",
+							"\"Tonga\",\r",
+							"\"Trinidad and Tobago\",\r",
+							"\"Tunisia\",\r",
+							"\"Turkey\",\r",
+							"\"Turkmenistan\",\r",
+							"\"Turks and Caicos Islands\",\r",
+							"\"Tuvalu\",\r",
+							"\"Uganda\",\r",
+							"\"Ukraine\",\r",
+							"\"United Arab Emirates\",\r",
+							"\"United Kingdom\",\r",
+							"\"United States\",\r",
+							"\"Uruguay\",\r",
+							"\"Uzbekistan\",\r",
+							"\"Vanuatu\",\r",
+							"\"Venezuela\",\r",
+							"\"Viet Nam\",\r",
+							"\"Virgin Islands, British\",\r",
+							"\"Wallis and Futuna\",\r",
+							"\"Western Sahara\",\r",
+							"\"Yemen\",\r",
+							"\"Zambia\",\r",
+							"\"Zimbabwe\"\r",
+							"];\r",
+							"var count1=0;\r",
+							"for (var i=0; i<s2.length;i++)\r",
+							"{\r",
+							"    if(s2[i]==pm.globals.get(\"billingCountry\"))\r",
+							"    \r",
+							"    {\r",
+							"        count1++;\r",
+							"        break;\r",
+							"    }\r",
+							"}\r",
+							"if(count1==1)\r",
+							"{\r",
+							"pm.test(\"Billing Country True\",function(){pm.expect(count1).to.equal(1);});\r",
+							"console.log(pm.globals.get(\"billingCountry\"));\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"pm.test(\"Invalid Billing Country\",function(){pm.expect(count1).to.equal(0);});\r",
+							"console.log(pm.globals.get(\"billingCountry\"),\"not found\");\r",
+							"}\r",
+							"\r",
+							"if((pm.globals.get(\"billingPostalCode\").length<=20) && (pm.globals.get(\"billingPostalCode\").match(/^[0-9A-Za-z]+$/)==pm.globals.get(\"billingPostalCode\")) )\r",
+							"console.log(\"Billing Postal Code is\",pm.globals.get(\"billingPostalCode\"));\r",
+							"else\r",
+							"console.log(\"Invalid Billing Postal Code\",pm.globals.get(\"billingPostalCode\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": true,
+				"followAuthorizationHeader": true,
+				"removeRefererHeaderOnRedirect": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "transaction_id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "app_name",
+						"value": "Postman",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"account_request\": {\n    \"billingCity\": \"{{billingCity}}\",\n    \"billingCountry\": \"{{billingCountry}}\",\n    \"billingPostalCode\": \"{{billingPostalCode}}\",\n    \"billingState\": \"{{billingState}}\",\n    \"personBirthDate\": \"1980-01-02T00:00:00Z\",\n    \"firstName\": \"MomFirstName12\",\n    \"contactIntegrationId\": \"{{contactIntegrationId}}\",\n    \"lastName\": \"MomLastName2\",\n    \"personEmail\": \"{{personEmail}}\",\n    \"personMobilePhone\": \"2223334466\",\n    \"phone\": \"1112223330\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/account",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Opportunity Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aaa63ec1-76e8-4ac4-a6aa-5137246ed8cc",
+						"exec": [
+							"if(pm.response.code==200)\r",
+							"{\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"\r",
+							"var json = JSON.parse(responseBody);\r",
+							"if(json.opportunity_response.length>0)\r",
+							"{\r",
+							"pm.globals.set(\"OPTY_Name\", json.opportunity_response[0].name);\r",
+							"OPTY_Name=json.opportunity_response[0].name;\r",
+							"pm.test(\"OPTY_Name starts with O-\", function(){pm.expect(OPTY_Name.substr(0,2)).to.equal(\"O-\");});\r",
+							"for (var i=0; i<json.opportunity_response[0].contacts.length;i++)\r",
+							"{\r",
+							"console.log(\"OPTY_Contact Id is\",json.opportunity_response[0].contacts[i].contactId);\r",
+							"pm.test(\"ContactId associated with OPTY TRUE, Total length of ContactId is 18 chars\",function(){pm.expect(json.opportunity_response[0].contacts[i].contactId.length).to.equal(18);});\r",
+							"}\r",
+							"\r",
+							"console.log(\"Total Opty contacts associated with opty is\",json.opportunity_response[0].contacts.length);\r",
+							"}\r",
+							"else\r",
+							"\r",
+							"pm.test(\"Opportunity is empty\", function () {\r",
+							"     pm.expect(json.opportunity_response).to.be.empty;\r",
+							"    });\r",
+							"}\r",
+							"pm.test(\"Opty Id True\",function(){pm.expect(json.opportunity_response[0].id).to.equal(pm.globals.get(\"OPTY_Id\"));});\r",
+							"\r",
+							"pm.test(\"Response Body matches string 'Should you decide to cancel prior to storage, a $150 cancellation fee will be applied'\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Should you decide to cancel prior to storage, a $150 cancellation fee will be applied.\");});\r",
+							"var schema = {\r",
+							"                \"type\":\"object\",\r",
+							"                \"properties\": {\r",
+							"                    \"opportunity_response\": {\r",
+							"                        \"type\":\"array\",\"minItems\":json.opportunity_response.length,\"maxItems\":json.opportunity_response.length,\r",
+							"                        \"items\":{\r",
+							"                            \"type\":\"object\",\r",
+							"                        \"properties\":{\r",
+							"                            \"accountFirstName\":{\"type\":\"string\"},\r",
+							"                            \"accountId\":{\"type\":\"string\"},\r",
+							"                            \"id\":{\"type\":\"string\"},\r",
+							"                            \"primaryContactFirstName\":{\"type\":\"string\"},\r",
+							"                            \"primaryContactLastName\":{\"type\":\"string\"},\r",
+							"                            \"id\":{\"type\":\"string\"},\r",
+							"                            \"dueDate\":{\"type\":\"string\"},\r",
+							"                            \"numOfBabies\":{\"type\":\"string\"},\r",
+							"                            \"adoptionType\":{\"type\":\"string\"},\r",
+							"                            \"provider\":{\"type\":\"object\", \"properties\":{\"address\":{\"type\":\"object\"}},\"required\":[\"address\"]},\r",
+							"                            \"hospital\":{\"type\":\"object\", \"properties\":{\"address\":{\"type\":\"object\"}},\"required\":[\"address\"]},\r",
+							"                            \"contacts\": {\"type\":\"array\",  \"minItems\":1,\r",
+							"                            \"items\": {\r",
+							"                                \"type\":\"object\",\r",
+							"                                \"properties\":{\r",
+							"                                    \"contactId\":{\"type\":\"string\"},\r",
+							"                                    \"firstName\":{\"type\":\"string\"},\r",
+							"                                    \"lastname\":{\"type\":\"string\"},\r",
+							"                                    \"primaryContact\":{\"type\":\"boolean\"},\r",
+							"                                    \"address\":{\"type\":\"object\"}\r",
+							"                                },\r",
+							"                                \"required\":[\"contactId\",\"firstName\",\"lastName\",\"primaryContact\",\"address\"]\r",
+							"                                }\r",
+							"                             \r",
+							"                                 \r",
+							"                            },\r",
+							"                     \r",
+							"                        },\r",
+							"                        \"required\":[\"primaryContactFirstName\",\"primaryContactLastName\", \"provider\",\"hospital\",\"contacts\"]\r",
+							"                    \r",
+							"                },\r",
+							"                    },\r",
+							"                \r",
+							"               \r",
+							"    },   \r",
+							"        \"required\":[\"opportunity_response\"],\r",
+							"                \"additionalProperties\": false        \r",
+							"    };\r",
+							"\r",
+							"pm.test('Validate Schema', function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "Postman"
+					}
+				],
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/opportunity/{{OPTY_Id}}",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"opportunity",
+						"{{OPTY_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upsert Opportunity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a202211d-2f27-40d3-a386-fc7ca269c294",
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"\r",
+							" pm.test(\"Opportunity is upserted successfully in salesforce\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Opportunity is upserted successfully in salesforce\");\r",
+							"});\r",
+							"\r",
+							"var json = JSON.parse(responseBody);\r",
+							"var OPTY_Id;\r",
+							"pm.globals.set(\"OPTY_Id\", json.opportunity_response.id);\r",
+							"OPTY_Id=json.opportunity_response.id;\r",
+							"pm.test(\"Opty Id Length is 18 characters\", function(){pm.expect(OPTY_Id.length).to.equal(18);});\r",
+							"console.log(\"Opportunity Id is\",json.opportunity_response.id);\r",
+							"\r",
+							"var schema = {\r",
+							"                \"type\":\"object\",\r",
+							"                \"properties\": {\r",
+							"                    \"opportunity_response\":{\r",
+							"                        \"type\":\"object\",\r",
+							"                        \"properties\":{\r",
+							"                            \"status\":{\"type\":\"string\"},\r",
+							"                            \"id\":{\"type\":\"string\"}\r",
+							"                            \r",
+							"                        },\r",
+							"                        \"required\":[\"status\",\"id\"],\r",
+							"                         \"additionalProperties\": false\r",
+							"                    }\r",
+							"                },\r",
+							"                \"required\":[\"opportunity_response\"],\r",
+							"                 \"additionalProperties\": false\r",
+							"    };\r",
+							"\r",
+							"\r",
+							"pm.test('Validate Schema', function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"    \r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d9c48668-c884-4939-b86b-dd6fb336c1b2",
+						"exec": [
+							"\r",
+							"var s1=[\"N/A\",\"Closed\",\"Open\",\"Surrogate\"];\r",
+							"var count=0;\r",
+							"for (var i=0; i<=s1.length;i++)\r",
+							"{\r",
+							"    if(s1[i]==pm.globals.get(\"adoptionType\"))\r",
+							"    \r",
+							"    {\r",
+							"        count++;\r",
+							"        break;\r",
+							"    }\r",
+							"}\r",
+							"if(count==1)\r",
+							"{\r",
+							"    pm.test(\"Adoption Type True\",function(){pm.expect(count).to.equal(1);});\r",
+							"    console.log(\"Adoption type is\",pm.globals.get(\"adoptionType\"));\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"pm.test(\"Invalid Adoption Type\",function(){pm.expect(count).to.equal(0);});\r",
+							"console.log(\"Adoption type is\",pm.globals.get(\"adoptionType\"));\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "transaction_id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "app_name",
+						"value": "Postman",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"opportunity_request\": {\n    \"accountId\": \"{{ACCT_Id}}\",\n    \"adoptionType\": \"{{adoptionType}}\",\n    \"closeDate\": \"2040-01-03\",\n    \"deliveringHospital\": \"{{DeliveringHospital_Id}}\",\n    \"name\": \"{{OPTY_Name}}\",\n    \"opportunityIntegrationId\": \"{{ExternalOptyName}}\",\n    \"numOfBabies\": \"Single\",\n    \"section1Received\": true,\n    \"section2Received\": false,\n    \"section2ReceivedBirthMother\": false,\n    \"section3Incomplete\": false,\n    \"section3IncompleteBirthMother\": false,\n    \"section3NeedsReview\": false,\n    \"section3NeedsReviewBirthMother\": false,\n    \"section3Received\": true,\n    \"section3ReceivedBirthMother\": false,\n    \"section4Received\": true,\n    \"section5Received\": false,\n    \"section5ReceivedBirthMother\": false,\n    \"stageName\": \"Accepted\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/opportunity",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"opportunity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upsert Asset",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "023264c7-57f0-4c99-9e39-50716aa835c1",
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"\r",
+							" pm.test(\"Asset is upserted successfully in salesforce\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Asset is upserted successfully in salesforce\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"var json = JSON.parse(responseBody);\r",
+							"var ASSET_Id;\r",
+							"pm.globals.set(\"ASSET_Id\", json.asset_response.id);\r",
+							"ASSET_Id=json.asset_response.id;\r",
+							"pm.test(\"ASSET Id Length is 18 characters\", function(){pm.expect(ASSET_Id.length).to.equal(18);});\r",
+							"console.log(\"Asset is is\",json.asset_response.id)\r",
+							"var schema = {\r",
+							"                \"type\":\"object\",\r",
+							"                \"properties\": {\r",
+							"                    \"asset_response\":{\r",
+							"                        \"type\":\"object\",\r",
+							"                        \"properties\":{\r",
+							"                            \"status\":{\"type\":\"string\"},\r",
+							"                            \"id\":{\"type\":\"string\"}\r",
+							"                        },\r",
+							"                        \"required\":[\"status\",\"id\"],\r",
+							"                         \"additionalProperties\": false\r",
+							"                    }\r",
+							"                },\r",
+							"                \"required\":[\"asset_response\"],\r",
+							"                 \"additionalProperties\": false\r",
+							"    };\r",
+							"\r",
+							"\r",
+							"pm.test('Validate Schema', function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"    \r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8cf1ef44-c762-4d51-aa72-7e5dd59e2450",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followAuthorizationHeader": true,
+				"followOriginalHttpMethod": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "transaction_id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "app_name",
+						"value": "Postman",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"asset_request\": {\r\n    \"accountId\": \"{{ACCT_Id}}\",\r\n    \"collectionDeviceProduct\": \"Pall\",\r\n    \"containerTypeFrozen\": \"Bag\",\r\n    \"DCSCTOptInFlag\": false,\r\n    \"kitAssetDepositId\": \"440000119485\",\r\n    \"kitLoginStartDate\": \"2020-02-21T00:00:00Z\",\r\n    \"kitAssetProduct\": \"Kit - Other\",\r\n    \"knotTieInformationFlag\": false,\r\n    \"maternalBloodDrawDateTime\": \"2020-02-21T00:00:00Z\",\r\n    \"name\":\"{{ASSET_Name}}\",\r\n    \"opportunity\": \"{{OPTY_Id}}\",\r\n    \"externalAssetName\": \"SSAM00000003936\",\r\n    \"SCSSCollectionDeviceId\": \"SSAM00000003936\",\r\n    \"SCSSKitAssetId\": \"5637974167\",\r\n    \"serialNumber\": \"78767765\",\r\n    \"status\": \"Arrived At Lab\",\r\n    \"type\": \"Cord Blood\",\r\n    \"needlesPresentFlag\": false,\r\n    \"pinholeLeakFlag\": false,\r\n    \"acceptableFlag\": true,\r\n    \"associatedSampleFlag\": true,\r\n    \"bloodActiveFlowChamberAndTubingFlag\": true\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/asset",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"asset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Opportunity Contact",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5be44ba8-f548-4c05-9165-b5cddb7d0f88",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Opportunity Contact is created successfully in salesforce\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Opportunity Contact is created successfully in salesforce\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"var json = JSON.parse(responseBody);\r",
+							"var OPTY_CONTACT_Id;\r",
+							"pm.globals.set(\"OPTY_CONTACT_Id\", json.opportunity_contact_response.id);\r",
+							"CREATE_OPTY_CONTACT_Id=json.opportunity_contact_response.id;\r",
+							"pm.test(\"OPTY_CONTACT_Id value length is 18 chars\", function(){pm.expect(json.opportunity_contact_response.id.length).to.equal(18);});\r",
+							"console.log(\"Opty Contact Id created is\",json.opportunity_contact_response.id);\r",
+							"var schema = {\r",
+							"                \"type\":\"object\",\r",
+							"                \"properties\": {\r",
+							"                    \"opportunity_contact_response\":{\r",
+							"                        \"type\":\"object\",\r",
+							"                        \"properties\":{\r",
+							"                            \"status\":{\"type\":\"string\"},\r",
+							"                            \"id\":{\"type\":\"string\"}\r",
+							"                        },\r",
+							"                        \"required\":[\"status\",\"id\"],\r",
+							"                         \"additionalProperties\": false\r",
+							"                    },\r",
+							"                },\r",
+							"                \"required\":[\"opportunity_contact_response\"],\r",
+							"                 \"additionalProperties\": false\r",
+							"    };\r",
+							"\r",
+							"\r",
+							"pm.test('Validate Schema', function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"    \r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8ef154bf-50e1-449e-b67a-412bae813096",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "Postman"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"opportunity_contact_request\": {\r\n      \"opportunityId\": \"{{OPTY_Id}}\",\r\n      \"personAccountId\": \"{{ACCT_Id}}\",\r\n      \"primary\": true,\r\n      \"role\": \"Lawyer\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/opportunitycontact",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"opportunitycontact"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Provider Facility Details - with query params",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c4816e7-d89b-47fe-a39d-21fecfc19873",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"var json1 = JSON.parse(responseBody);\r",
+							"\r",
+							"if(json1.provider_search_response.length>0)\r",
+							"{\r",
+							"    pm.globals.set(\"Provider_Id\", json1.provider_search_response[0].providerId);\r",
+							"    pm.globals.set(\"provider_Facility_Id\", json1.provider_search_response[0].providerFacilityId);\r",
+							"    pm.globals.set(\"pf_fname\", json1.provider_search_response[0].firstName);\r",
+							"    pm.globals.set(\"pf_lname\", json1.provider_search_response[0].lastName);\r",
+							"    pm.globals.set(\"facilityName\", json1.provider_search_response[1].facility.name);\r",
+							"for(var i=0;i<json1.provider_search_response.length;i++)\r",
+							"{\r",
+							"pm.test(\"Billing Country True\", function(){pm.expect(json1.provider_search_response[i].facility.officeAddress.country).to.equal(pm.globals.get(\"billingCountry\"));});\r",
+							"pm.test(\"Billing Postal Code True\", function(){pm.expect(json1.provider_search_response[i].facility.officeAddress.zipcode).to.equal(pm.globals.get(\"billingPostalCode\"));});\r",
+							"}\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"pm.test(\"Check if Provider Facility is empty\", function () {\r",
+							"     pm.expect(json1.provider_search_response).to.be.empty;\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "Postman"
+					}
+				],
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/provider-facility?status=Active&country={{billingCountry}}&zipcode={{billingPostalCode}}",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"provider-facility"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "Active"
+						},
+						{
+							"key": "limit",
+							"value": "10",
+							"disabled": true
+						},
+						{
+							"key": "pageNo",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "city",
+							"value": "Atlanta",
+							"disabled": true
+						},
+						{
+							"key": "streetAddress",
+							"value": "1000 Johnson Ferry Rd NE",
+							"disabled": true
+						},
+						{
+							"key": "zipcode",
+							"value": "23320",
+							"disabled": true
+						},
+						{
+							"key": "state",
+							"value": "Virginia",
+							"disabled": true
+						},
+						{
+							"key": "country",
+							"value": "{{billingCountry}}"
+						},
+						{
+							"key": "zipcode",
+							"value": "{{billingPostalCode}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Opportunity Provider",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cd36e06f-e109-47f0-8f1f-a18db3998b06",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Opportunity Provider is Create successfully in salesforce\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Opportunity Provider is Create successfully in salesforce\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"var json = JSON.parse(responseBody);\r",
+							"var OPTY_PROVIDER_Id;\r",
+							"pm.globals.set(\"OPTY_PROVIDER_Id\", json.opportunity_provider_response.id);\r",
+							"OPTY_PROVIDER_Id=json.opportunity_provider_response.id;\r",
+							"pm.test(\"OPTY_PROVIDER_Id value length is 18 chars\", function(){pm.expect(json.opportunity_provider_response.id.length).to.equal(18);});\r",
+							"console.log(\"Opty Provider id created is\",json.opportunity_provider_response.id);\r",
+							"console.log(\"Provider facility is is\",pm.globals.get(\"PROVIDER_FACILITY_Id\"));\r",
+							"console.log(\"Provider id is\",pm.globals.get(\"PROVIDER_Id\"));\r",
+							"\r",
+							"var schema = {\r",
+							"                \"type\":\"object\",\r",
+							"                \"properties\": {\r",
+							"                    \"opportunity_provider_response\":{\r",
+							"                        \"type\":\"object\",\r",
+							"                        \"properties\":{\r",
+							"                            \"status\":{\"type\":\"string\"},\r",
+							"                            \"id\":{\"type\":\"string\"}\r",
+							"                        },\r",
+							"                        \"required\":[\"status\",\"id\"],\r",
+							"                         \"additionalProperties\": false\r",
+							"                    },\r",
+							"                },\r",
+							"                \"required\":[\"opportunity_provider_response\"],\r",
+							"                 \"additionalProperties\": false\r",
+							"    };\r",
+							"\r",
+							"\r",
+							"pm.test('Validate Schema', function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"    \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "Postman"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"opportunity_provider_request\": {\r\n      \"opportunityId\": \"{{OPTY_Id}}\",\r\n      \"deliveringProvider\": true,\r\n     \"providerFacilityId\": \"{{Provider_Facility_Id}}\",\r\n      \"providerId\": \"{{Provider_Id}}\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/opportunityprovider",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"opportunityprovider"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Opportunity Provider",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6bc3b434-89db-4263-88aa-fd3f77dfbf73",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Opportunity Provider is Updated successfully in salesforce\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Opportunity Provider is Updated successfully in salesforce\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"var json = JSON.parse(responseBody);\r",
+							"var OPTY_PROVIDER_Id;\r",
+							"pm.globals.set(\"OPTY_PROVIDER_Id\", json.opportunity_provider_response.id);\r",
+							"OPTY_PROVIDER_Id=json.opportunity_provider_response.id;\r",
+							"pm.test(\"OPTY_PROVIDER_Id value length is 18 chars\", function(){pm.expect(json.opportunity_provider_response.id.length).to.equal(18);});\r",
+							"pm.test(\"Opty Provider Id True,\",function(){pm.expect(json.opportunity_provider_response.id).to.equal(pm.globals.get(\"OPTY_PROVIDER_Id\"));});\r",
+							"console.log(\"Updated Opty Provider Id is\",json.opportunity_provider_response.id);\r",
+							"var schema = {\r",
+							"                \"type\":\"object\",\r",
+							"                \"properties\": {\r",
+							"                    \"aopportunity_provider_response\":{\r",
+							"                        \"type\":\"object\",\r",
+							"                        \"properties\":{\r",
+							"                            \"status\":{\"type\":\"string\"},\r",
+							"                            \"id\":{\"type\":\"string\"}\r",
+							"                        },\r",
+							"                        \"required\":[\"status\",\"id\"]\r",
+							"                    }\r",
+							"                },\r",
+							"                \"required\":[\"opportunity_provider_response\"]\r",
+							"    };\r",
+							"\r",
+							"\r",
+							"pm.test('Validate Schema', function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"    \r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "Postman"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"opportunity_provider_request\": {\r\n      \"opportunityId\": \"{{OPTY_Id}}\",\r\n      \"deliveringProvider\": true,\r\n      \"providerFacilityId\": \"{{Provider_Facility_Id}}\",\r\n      \"providerId\": \"{{Provider_Id}}\",\r\n      \"id\": \"{{OPTY_PROVIDER_Id}}\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/opportunityprovider",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"opportunityprovider"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Opportunity Provider Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ff7a5017-dc57-4ac7-b707-d44f9a4f55f2",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"var json = JSON.parse(responseBody);\r",
+							"\r",
+							"if(json.opportunity_provider_response.length>0)\r",
+							"console.log(\"Total Opty Provider for Opty is\",json.opportunity_provider_response.length)\r",
+							"else\r",
+							"{\r",
+							"pm.test(\"Check if Opportunity  Provdider is empty\", function () {\r",
+							"     pm.expect(json.opportunity_provider_response).to.be.empty;\r",
+							"    });\r",
+							"}\r",
+							"\r",
+							"for(var i=0; i<json.opportunity_provider_response.length;i++)\r",
+							"{           \r",
+							"    \r",
+							"pm.test(\"Opty Id True\",function(){pm.expect(json.opportunity_provider_response[i].opportunityId).to.equal(pm.globals.get(\"OPTY_Id\"));});\r",
+							"console.log(json.opportunity_provider_response[i].opportunityId);\r",
+							"/*pm.test(\"Delivering Provider True/False\",function(){pm.expect(json.opportunity_provider_response[i].deliveringProvider).to.equal(Boolean(0)||Boolean(1));});\r",
+							"console.log(json.opportunity_provider_response[i].deliveringProvider);*/\r",
+							"pm.test(\"PROVIDER_FACILITY_Id True\",function(){pm.expect(json.opportunity_provider_response[i].providerFacilityId).to.length(18);});\r",
+							"console.log(json.opportunity_provider_response[i].providerFacilityId);\r",
+							"pm.test(\"PROVIDER Id True\",function(){pm.expect(json.opportunity_provider_response[i].providerId).to.length(18);});\r",
+							"console.log(json.opportunity_provider_response[i].providerId);\r",
+							"pm.test(\"Opty PROVIDER Id True\",function(){pm.expect(json.opportunity_provider_response[i].id).to.length(18);});\r",
+							"console.log(json.opportunity_provider_response[i].providerId);\r",
+							"pm.test(\"OPTY PROVIDER Name True\",function(){pm.expect(json.opportunity_provider_response[i].Name).to.includes(\"OP-\")});\r",
+							"console.log(json.opportunity_provider_response[i].Name);\r",
+							"}\r",
+							"\r",
+							"var schema = {\r",
+							"                \"type\":\"object\",\r",
+							"                \"properties\": {\r",
+							"                    \"opportunity_provider_response\":{\r",
+							"                        \"type\":\"array\",\"minItems\":json.opportunity_provider_response.length,\"maxItems\":json.opportunity_provider_response.length,\r",
+							"                        \"items\":{ \r",
+							"                            \"type\":\"object\",\r",
+							"                        \"properties\":{\r",
+							"                            \"opportunityId\":{\"type\":\"string\"},\r",
+							"                            \"deliveringProvider\":{\"type\":\"boolean\"},\r",
+							"                            \"providerFacilityId\":{\"type\":\"string\"},\r",
+							"                            \"providerId\":{\"type\":\"string\"},\r",
+							"                            \"id\":{\"type\":\"string\"},\r",
+							"                            \"Name\":{\"type\":\"string\"}\r",
+							"                        \r",
+							"                          \r",
+							"\r",
+							"                        },\r",
+							"                        \"required\":[\"opportunityId\",\"deliveringProvider\",\"providerId\",\"id\",\"Name\"]   \r",
+							"                        },\r",
+							"                        \r",
+							"                    },\r",
+							"                },\r",
+							"                \"required\":[\"opportunity_provider_response\"],\r",
+							"                 \"additionalProperties\": false\r",
+							"    };\r",
+							"\r",
+							"\r",
+							"pm.test('Validate Schema', function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);  \r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "Postman"
+					}
+				],
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/opportunityprovider?opportunityId={{OPTY_Id}}",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"opportunityprovider"
+					],
+					"query": [
+						{
+							"key": "providerFacilityId",
+							"value": "a272a0000008Eh1AAE",
+							"disabled": true
+						},
+						{
+							"key": "providerId",
+							"value": "0012a00000YJqmZAAT",
+							"disabled": true
+						},
+						{
+							"key": "opportunityId",
+							"value": "{{OPTY_Id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Opportunity Contact Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c85c79e9-f8fc-4a50-b020-30d43292943e",
+						"exec": [
+							"pm.test(\"Response code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"var json = JSON.parse(responseBody);\r",
+							"\r",
+							"var j=0;\r",
+							"if(json.opportunity_contact_response.length>0)\r",
+							"pm.test(\"Opportunity  Contact is Present\");\r",
+							"else\r",
+							"pm.test(\"Opportunity Contact is Empty\")\r",
+							"    \r",
+							"pm.test(\"Opty Id True\",function(){pm.expect(json.opportunity_contact_response[0].opportunityId).to.equal(pm.globals.get(\"OPTY_Id\"));});\r",
+							"   \r",
+							"    for(var i=0; i<json.opportunity_contact_response.length;i++)\r",
+							"    {\r",
+							"\r",
+							"        pm.globals.set(\"oc_fname\", json.opportunity_contact_response[0].firstName);\r",
+							"        pm.globals.set(\"oc_lname\", json.opportunity_contact_response[0].lastName);\r",
+							"        pm.globals.set(\"oc_dob\", json.opportunity_contact_response[0].dateOfBirth);\r",
+							"    if((json.opportunity_contact_response[i].name) != null)\r",
+							"    {\r",
+							"        \r",
+							"   \r",
+							"    pm.test(\"OPTY_CONTACT_Name True\",function(){pm.expect(json.opportunity_contact_response[i].name).to.includes(\"OC-\");});\r",
+							"    }\r",
+							"     if((json.opportunity_contact_response[i].SCSSOpportunityContactId) != null)\r",
+							"    {\r",
+							"        \r",
+							"        pm.globals.set(\"SCSS_OPTY_CONTACT_Id\", json.opportunity_contact_response[i].SCSSOpportunityContactId);\r",
+							"        pm.test(\"SCSS_OPTY_CONTACT_Id True\",function(){\r",
+							"        pm.expect(json.opportunity_contact_response[i].SCSSOpportunityContactId).to.includes(\"-\");});\r",
+							"        pm.globals.set(\"Person_Account_Id\", json.opportunity_contact_response[i].personAccountId);\r",
+							"        pm.test(\"Person_Account_Id True\",function(){\r",
+							"        pm.expect(json.opportunity_contact_response[i].personAccountId).to.length(18);});\r",
+							"        \r",
+							"\r",
+							"    }\r",
+							"    }\r",
+							"var schema = {\r",
+							"                \"type\":\"object\",\r",
+							"                \"properties\": {\r",
+							"                    \"opportunity_contact_response\":{\r",
+							"                        \"type\":\"array\",\"minItems\":json.opportunity_contact_response.length,\"maxItems\":json.opportunity_contact_response.length,\r",
+							"                        \"items\":{\r",
+							"                        \"type\":\"object\",\r",
+							"                        \"properties\":{\r",
+							"                            \"createdById\":{\"type\":\"string\"},\r",
+							"                            \"createdDate\":{\"type\":\"string\"},\r",
+							"                            \"id\":{\"type\":\"string\"},\r",
+							"                            \"name\":{\"type\":\"string\"},\r",
+							"                            \"opportunityId\":{\"type\":\"string\"},\r",
+							"                            \"opportunityName\":{\"type\":\"string\"},\r",
+							"                            \"address\":{\"type\":\"object\"},\r",
+							"                            \"SCSSOpportunityContactId\":{\"type\":\"string\"}\r",
+							"                                 \r",
+							"                        },\r",
+							"                         \"required\":[\"createdById\",\"createdDate\",\"id\",\"name\",\"opportunityId\",\"opportunityName\",\"address\"]\r",
+							"                        }\r",
+							"                            \r",
+							"                    },\r",
+							"                },\r",
+							"                \"required\":[\"opportunity_contact_response\"],\r",
+							"                 \"additionalProperties\": false\r",
+							"    };\r",
+							"\r",
+							"\r",
+							"pm.test('Validate Schema', function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);  \r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "Postman"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/opportunitycontact?opportunityId={{OPTY_Id}}",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"opportunitycontact"
+					],
+					"query": [
+						{
+							"key": "zipcode",
+							"value": "85724",
+							"disabled": true
+						},
+						{
+							"key": "city",
+							"value": "Tucson",
+							"disabled": true
+						},
+						{
+							"key": "state",
+							"value": "Arizona",
+							"disabled": true
+						},
+						{
+							"key": "contactId",
+							"value": "0013l000029xr46AAA",
+							"disabled": true
+						},
+						{
+							"key": "opportunityId",
+							"value": "{{OPTY_Id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Asset Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "076a4316-ce08-47b0-8f05-0650f4f2a70f",
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"var json = JSON.parse(responseBody);\r",
+							"var ASSET_Name;\r",
+							"if(json.asset_response.length > 0)\r",
+							"{\r",
+							"pm.test(\"Asset Id True\",function(){pm.expect(json.asset_response[0].id).to.equal(pm.globals.get(\"ASSET_Id\"));});\r",
+							"pm.globals.set(\"ASSET_Name\", json.asset_response[0].name);\r",
+							"ASSET_Name=json.asset_response[0].name;\r",
+							"pm.test(\"ASSET_Name starts with A-\", function(){pm.expect(ASSET_Name.substr(0,2)).to.equal(\"A-\");});\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"pm.test(\"Check if Asset is empty\", function () {\r",
+							"     pm.expect(json.asset_response).to.be.empty;\r",
+							"    });\r",
+							"}\r",
+							"var schema = {\r",
+							"                \"type\":\"object\",\r",
+							"                \"properties\": {\r",
+							"                    \"asset_response\":{\r",
+							"                        \"type\":\"array\",\"minItems\":json.asset_response.length,\"maxItems\":json.asset_response.length,\r",
+							"                        \"properties\":{\r",
+							"                            \"accountId\": {\"type\":\"string\"},\r",
+							"                            \"assetLevel\": {\"type\":\"number\"},\r",
+							"                            \"assetNumber\": {\"type\":\"string\"},\r",
+							"                            \"acceptableFlag\": {\"type\":\"boolean\"},\r",
+							"                            \"associatedSampleFlag\": {\"type\":\"boolean\"},\r",
+							"                            \"bloodActiveFlowChamberAndTubingFlag\":{\"type\":\"boolean\"},\r",
+							"                            \"DCSCTOptInFlag\": {\"type\":\"boolean\"},\r",
+							"                            \"needlesPresentFlag\": {\"type\":\"boolean\"},\r",
+							"                            \"pinholeLeakFlag\": {\"type\":\"boolean\"},\r",
+							"                            \"knotTieInformationFlag\": {\"type\":\"boolean\"},\r",
+							"                            \"babyWeightLbs\":{\"type\":\"number\"},\r",
+							"                            \"babyWeightOz\": {\"type\":\"number\"},\r",
+							"                            \"babyFullName\": {\"type\":\"string\"},\r",
+							"                            \"collectionDeviceProduct\": {\"type\":\"string\"},\r",
+							"                            \"containerTypeFrozen\": {\"type\":\"string\"},\r",
+							"                            \"createdById\": {\"type\":\"string\"},\r",
+							"                            \"createdDate\": {\"type\":\"string\"},\r",
+							"                            \"discontinuedStorage\": {\"type\":\"string\"},\r",
+							"                            \"id\": {\"type\":\"string\"},\r",
+							"                            \"isCompetitorProduct\": {\"type\":\"boolean\"},\r",
+							"                            \"isDeleted\": {\"type\":\"boolean\"},\r",
+							"                            \"isInternal\": {\"type\":\"boolean\"},\r",
+							"                            \"kitAssetDepositId\": {\"type\":\"boolean\"},\r",
+							"                            \"kitLoginStartDate\": {\"type\":\"string\"},\r",
+							"                            \"kitAssetProduct\": {\"type\":\"string\"},\r",
+							"                            \"kitLoginStartDatePST\": {\"type\":\"string\"},\r",
+							"                            \"lastModifiedById\": {\"type\":\"string\"},\r",
+							"                            \"lastModifiedDate\":{\"type\":\"string\"},\r",
+							"                            \"maternalBloodDrawDateTime\": {\"type\":\"string\"},\r",
+							"                            \"name\": {\"type\":\"string\"},\r",
+							"                            \"noBabyBook\": {\"type\":\"boolean\"},\r",
+							"                            \"noCertificate\": {\"type\":\"boolean\"},\r",
+							"                            \"opportunityStatus\": {\"type\":\"string\"},\r",
+							"                            \"opportunity\": {\"type\":\"string\"},\r",
+							"                            \"ownerId\": {\"type\":\"string\"},\r",
+							"                            \"rootAssetId\": {\"type\":\"string\"},\r",
+							"                            \"SCSSCollectionDeviceId\": {\"type\":\"string\"},\r",
+							"                            \"SCSSKitAssetId\": {\"type\":\"string\"},\r",
+							"                            \"serialNumber\": {\"type\":\"string\"},\r",
+							"                            \"status\": {\"type\":\"string\"},\r",
+							"                            \"systemModstamp\": {\"type\":\"string\"},\r",
+							"                            \"type\": {\"type\":\"string\"},\r",
+							"                        },\r",
+							"                        \"required\":[\"accountId\",\"assetNumber\"],\r",
+							"                            \r",
+							"                    },\r",
+							"                },\r",
+							"                \"required\":[\"asset_response\"],\r",
+							"                 \"additionalProperties\": false\r",
+							"    };\r",
+							"\r",
+							"\r",
+							"pm.test('Validate Schema', function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);  \r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "Postman"
+					}
+				],
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/asset/{{ASSET_Id}}",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"asset",
+						"{{ASSET_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Opportunity Details With Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a3fea9f1-0ba6-4017-b28c-9e271a371c1e",
+						"exec": [
+							"if(pm.response.code==200)\r",
+							"{\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"}\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"\r",
+							"var json = JSON.parse(responseBody);\r",
+							"if(json.opportunity_response.length>0)\r",
+							"{\r",
+							"\r",
+							"pm.test(\"OPTY_Name starts with O-\", function(){pm.expect(json.opportunity_response[0].name.substr(0,2)).to.equal(\"O-\");});\r",
+							"pm.test(\"Opty Id True\",function(){pm.expect(json.opportunity_response[0].id).to.equal(pm.globals.get(\"OPTY_Id\"));});\r",
+							"\r",
+							"pm.test(\"Response Body matches string 'Should you decide to cancel prior to storage, a $150 cancellation fee will be applied'\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Should you decide to cancel prior to storage, a $150 cancellation fee will be applied.\");});\r",
+							"console.log(\"Total Opty contacts associated with opty is\",json.opportunity_response[0].contacts.length);\r",
+							"for (var i=0; i<json.opportunity_response[0].contacts.length;i++)\r",
+							"{\r",
+							"console.log(\"OPTY_Contact Id is\",json.opportunity_response[0].contacts[i].contactId);\r",
+							"pm.test(\"ContactId associated with OPTY TRUE, Total length of ContactId is 18 chars\",function(){pm.expect(json.opportunity_response[0].contacts[i].contactId.length).to.equal(18);});\r",
+							"}\r",
+							"\r",
+							"\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"pm.test(\"Opportunity is empty\", function () {\r",
+							"     pm.expect(json.opportunity_response).to.be.empty;\r",
+							"    });\r",
+							"}\r",
+							"\r",
+							"var schema = {\r",
+							"                \"type\":\"object\",\r",
+							"                \"properties\": {\r",
+							"                    \"opportunity_response\": {\r",
+							"                        \"type\":\"array\",\"minItems\":0,\"maxItems\":1,\r",
+							"                        \"items\":{\r",
+							"                            \"type\":\"object\",\r",
+							"                        \"properties\":{\r",
+							"                            \"accountFirstName\":{\"type\":\"string\"},\r",
+							"                            \"accountId\":{\"type\":\"string\"},\r",
+							"                            \"id\":{\"type\":\"string\"},\r",
+							"                            \"primaryContactFirstName\":{\"type\":\"string\"},\r",
+							"                            \"primaryContactLastName\":{\"type\":\"string\"},\r",
+							"                            \"id\":{\"type\":\"string\"},\r",
+							"                            \"dueDate\":{\"type\":\"string\"},\r",
+							"                            \"numOfBabies\":{\"type\":\"string\"},\r",
+							"                            \"adoptionType\":{\"type\":\"string\"},\r",
+							"                            \"provider\":{\"type\":\"object\", \"properties\":{\"address\":{\"type\":\"object\"}},\"required\":[\"address\"]},\r",
+							"                            \"hospital\":{\"type\":\"object\", \"properties\":{\"address\":{\"type\":\"object\"}},\"required\":[\"address\"]},\r",
+							"                            \"contacts\": {\"type\":\"array\",  \"minItems\":1,\r",
+							"                            \"items\": {\r",
+							"                                \"type\":\"object\",\r",
+							"                                \"properties\":{\r",
+							"                                    \"contactId\":{\"type\":\"string\"},\r",
+							"                                    \"firstName\":{\"type\":\"string\"},\r",
+							"                                    \"lastname\":{\"type\":\"string\"},\r",
+							"                                    \"primaryContact\":{\"type\":\"boolean\"},\r",
+							"                                    \"address\":{\"type\":\"object\"}\r",
+							"                                },\r",
+							"                                \"required\":[\"contactId\",\"firstName\",\"lastName\",\"primaryContact\",\"address\"]\r",
+							"                                }\r",
+							"                             \r",
+							"                                 \r",
+							"                            },\r",
+							"                     \r",
+							"                        },\r",
+							"                        \"required\":[\"primaryContactFirstName\",\"primaryContactLastName\", \"provider\",\"hospital\",\"contacts\"]\r",
+							"                    \r",
+							"                },\r",
+							"                    },\r",
+							"                \r",
+							"               \r",
+							"    },   \r",
+							"        \"required\":[\"opportunity_response\"],\r",
+							"                \"additionalProperties\": false        \r",
+							"    };\r",
+							"\r",
+							"pm.test('Validate Schema', function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "Postman"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/opportunity?name={{OPTY_Name}}&limit=10",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"opportunity"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{OPTY_Name}}"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Account Details - with query params",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "01850855-5eb2-4594-87d1-be1b8800cb36",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"var json1 = JSON.parse(responseBody);\r",
+							"if(json1.account_response.length>0)\r",
+							"{\r",
+							"for(var i=0;i<json1.account_response.length;i++)\r",
+							"{\r",
+							"pm.test(\"Billing City True\", function(){pm.expect(json1.account_response[i].billingCity).to.equal(pm.globals.get(\"billingCity\"));});\r",
+							"pm.test(\"Billing Country True\", function(){pm.expect(json1.account_response[i].billingCountry).to.equal(pm.globals.get(\"billingCountry\"));});\r",
+							"pm.test(\"Billing Postal Code\", function(){pm.expect(json1.account_response[i].billingPostalCode).to.equal(pm.globals.get(\"billingPostalCode\"));});\r",
+							"pm.test(\"Billing State\", function(){pm.expect(json1.account_response[i].billingState).to.equal(pm.globals.get(\"billingState\"));});\r",
+							"}\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"pm.test(\"Check if Account is empty\", function () {\r",
+							"     pm.expect(json1.account_response).to.be.empty;\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cfb5fc23-f997-4b52-99d4-846bd36ceb86",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "transaction_id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "app_name",
+						"value": "Postman",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/account?status=Active&city={{billingCity}}&zipcode={{billingPostalCode}}&state={{billingState}}&country={{billingCountry}}&limit=5&pageNo=1",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"account"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "Facility",
+							"disabled": true
+						},
+						{
+							"key": "status",
+							"value": "Active"
+						},
+						{
+							"key": "city",
+							"value": "{{billingCity}}"
+						},
+						{
+							"key": "zipcode",
+							"value": "{{billingPostalCode}}"
+						},
+						{
+							"key": "state",
+							"value": "{{billingState}}"
+						},
+						{
+							"key": "country",
+							"value": "{{billingCountry}}"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						},
+						{
+							"key": "pageNo",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Account Details - with id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ea9f561-75f7-4b32-b79d-ed22b351e910",
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"var json = JSON.parse(responseBody);\r",
+							"if(json.account_response.length>0)\r",
+							"{\r",
+							"pm.test(\"Account Id True\",function(){pm.expect(json.account_response[0].id).to.equal(pm.globals.get(\"ACCT_Id\"));});\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"pm.test(\"Check if Account is empty\", function () {\r",
+							"     pm.expect(json.account_response).to.be.empty;\r",
+							"    });\r",
+							"\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "Postman"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/account/{{ACCT_Id}}",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"account",
+						"{{ACCT_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upsert Opportunity Contact",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f03168ae-f6f6-4d8f-a8c2-aa9c857e8fa2",
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Opportunity Contact is upserted successfully in salesforce\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Opportunity Contact is upserted successfully in salesforce\");\r",
+							"});\r",
+							"\r",
+							"var json = JSON.parse(responseBody);\r",
+							"pm.globals.set(\"OPTY_CONTACT_Id\", json.opportunity_contact_response.id);\r",
+							"OPTY_CONTACT_Id=json.opportunity_contact_response.id;\r",
+							"pm.test(\"Opty Contact Id Length is 18 characters\", function(){pm.expect(OPTY_CONTACT_Id.length).to.equal(18);});\r",
+							"console.log(OPTY_CONTACT_Id);\r",
+							"var schema = {\r",
+							"                \"type\":\"object\",\r",
+							"                \"properties\": {\r",
+							"                    \"opportunity_contact_response\":{\r",
+							"                        \"type\":\"object\",\r",
+							"                        \"properties\":{\r",
+							"                            \"status\":{\"type\":\"string\"},\r",
+							"                            \"id\":{\"type\":\"string\"}\r",
+							"                        },\r",
+							"                        \"required\":[\"status\",\"id\"],\r",
+							"                         \"additionalProperties\": false\r",
+							"                    }\r",
+							"                },\r",
+							"                \"required\":[\"opportunity_contact_response\"],\r",
+							"                \"additionalProperties\": false\r",
+							"    };\r",
+							"\r",
+							"\r",
+							"pm.test('Validate Schema', function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"    \r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1d859dc9-0a38-41ea-a0e8-1590eaf5db4b",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "Postman"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"opportunity_contact_request\": {\r\n      \"billTo\": false,\r\n      \"opportunityId\": \"{{OPTY_Id}}\",\r\n      \"personAccountId\": \"{{Person_Account_Id}}\",\r\n      \"primary\": false,\r\n      \"role\": \"Father\",\r\n      \"shipTo\": false,\r\n      \"SCSSOpportunityContactId\": \"{{SCSS_OPTY_CONTACT_Id}}\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{system-salesforce-host}}:{{system-port}}/system/v1/salesforce/opportunitycontact",
+					"protocol": "http",
+					"host": [
+						"{{system-salesforce-host}}"
+					],
+					"port": "{{system-port}}",
+					"path": [
+						"system",
+						"v1",
+						"salesforce",
+						"opportunitycontact"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Provider Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d85cbcd8-c5a9-44e2-a797-90fbefe2786a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "ALIST"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"provider_search_request\": {\n        \"providerId\": \"{{Provider_Id}}\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{process-account-host}}:{{process-port}}/process/v1/account/provider/search",
+					"protocol": "http",
+					"host": [
+						"{{process-account-host}}"
+					],
+					"port": "{{process-port}}",
+					"path": [
+						"process",
+						"v1",
+						"account",
+						"provider",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Facility Search",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "transaction_id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "app_name",
+						"value": "Postman",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"facility_search_request\": {\r\n    \"facilityName\": \"{{facilityName}}\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{process-account-host}}:{{process-port}}/process/v1/account/facility/search",
+					"protocol": "http",
+					"host": [
+						"{{process-account-host}}"
+					],
+					"port": "{{process-port}}",
+					"path": [
+						"process",
+						"v1",
+						"account",
+						"facility",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Opportunity Search with Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "242490bb-b141-4688-925b-2257411b6b84",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "transaction_id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "app_name",
+						"value": "Postman",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"opportunity_search_request\": {\n        \"opportunityName\": \"{{OPTY_Name}}\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{process-opportunity-host}}:{{process-port}}/process/v1/opty/opportunity/search",
+					"protocol": "http",
+					"host": [
+						"{{process-opportunity-host}}"
+					],
+					"port": "{{process-port}}",
+					"path": [
+						"process",
+						"v1",
+						"opty",
+						"opportunity",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Opportunity Search with Contact",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "transaction_id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "app_name",
+						"value": "Postman",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"opportunity_search_request\": {\n        \"contact\": {\n            \"firstName\": \"{{oc_fname}}\",\n            \"lastName\": \"{{oc_lname}}\",\n            \"dateOfBirth\": \"{{oc_dob}}\"\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{process-opportunity-host}}:{{process-port}}/process/v1/opty/opportunity/search",
+					"protocol": "http",
+					"host": [
+						"{{process-opportunity-host}}"
+					],
+					"port": "{{process-port}}",
+					"path": [
+						"process",
+						"v1",
+						"opty",
+						"opportunity",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hospital Search",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "transaction_id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "app_name",
+						"value": "ALIST",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"hospital_search_request\": {\n        \"hospitalName\": \"Mills Memorial Hospital\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{exp-alist-host}}:{{exp-port}}/exp/v1/kit-login/hospital/search",
+					"protocol": "http",
+					"host": [
+						"{{exp-alist-host}}"
+					],
+					"port": "{{exp-port}}",
+					"path": [
+						"exp",
+						"v1",
+						"kit-login",
+						"hospital",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Opportunity Search",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "ALIST"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"opportunity_search_request\": {\n        \"opportunityName\": \"O-00961522\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{exp-alist-host}}:{{exp-port}}/exp/v1/kit-login/opportunity/search",
+					"protocol": "http",
+					"host": [
+						"{{exp-alist-host}}"
+					],
+					"port": "{{exp-port}}",
+					"path": [
+						"exp",
+						"v1",
+						"kit-login",
+						"opportunity",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Provider Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f838f9ce-10fb-4c98-a30b-c3a5094b5fe9",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 120000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(120000);\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"var json1 = JSON.parse(responseBody);\r",
+							"if(json1.provider_search_response.length>0)\r",
+							"{\r",
+							"for(var i=0;i<json1.provider_search_response.length;i++)\r",
+							"{\r",
+							"pm.test(\"Billing Country True\", function(){pm.expect(json1.provider_search_response[i].facility.officeAddress.country).to.equal(pm.globals.get(\"billingCountry\"));});\r",
+							"pm.test(\"Billing Postal Code True\", function(){pm.expect(json1.provider_search_response[i].facility.officeAddress.zipcode).to.equal(pm.globals.get(\"billingPostalCode\"));});\r",
+							"}\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"pm.test(\"Check if Provider Facility is empty\", function () {\r",
+							"     pm.expect(json1.provider_search_response).to.be.empty;\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "transaction_id",
+						"type": "text",
+						"value": "{{$guid}}"
+					},
+					{
+						"key": "app_name",
+						"type": "text",
+						"value": "ALIST"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"provider_search_request\": {\n        \"firstName\": \"{{pf_fname}}\",\n        \"lastName\": \"{{pf_lname}}\",\n        \"address\":{\n           \n        \t\"country\": \"{{billingCountry}}\"\n          \n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{exp-alist-host}}:{{exp-port}}/exp/v1/kit-login/provider/search",
+					"protocol": "http",
+					"host": [
+						"{{exp-alist-host}}"
+					],
+					"port": "{{exp-port}}",
+					"path": [
+						"exp",
+						"v1",
+						"kit-login",
+						"provider",
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c54fecc5-1f89-4b9d-92e8-1ea41ec9827d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "f3bb46b6-d26a-445d-a65f-0e8a858bc215",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
