@@ -1,0 +1,139 @@
+{
+	"id": "94f6fe02-096a-4569-810f-de2387ac4cf0",
+	"values": [
+		{
+			"key": "ACCT_Id",
+			"value": "0010r00000TjDljAAF",
+			"enabled": true
+		},
+		{
+			"key": "OPTY_Name",
+			"value": "O-00589217",
+			"enabled": true
+		},
+		{
+			"key": "ASSET_Id",
+			"value": "02i0r000000ObhkAAC",
+			"enabled": true
+		},
+		{
+			"key": "OPTY_CONTACT_Id",
+			"value": "a240r000000NA2iAAG",
+			"enabled": true
+		},
+		{
+			"key": "OPTY_PROVIDER_Id",
+			"value": "a250r0000008BkSAAU",
+			"enabled": true
+		},
+		{
+			"key": "SCSS_OPTY_CONTACT_Id",
+			"value": "1-59SX7B",
+			"enabled": true
+		},
+		{
+			"key": "personEmail",
+			"value": "mo232555f1fttr@gmail.com",
+			"enabled": true
+		},
+		{
+			"key": "contactIntegrationId",
+			"value": "Test637286971124",
+			"enabled": true
+		},
+		{
+			"key": "billingState",
+			"value": "Arizona",
+			"enabled": true
+		},
+		{
+			"key": "billingCountry",
+			"value": "United States",
+			"enabled": true
+		},
+		{
+			"key": "billingPostalCode",
+			"value": "85756",
+			"enabled": true
+		},
+		{
+			"key": "adoptionType",
+			"value": "Open",
+			"enabled": true
+		},
+		{
+			"key": "OPTY_Id",
+			"value": "0063l00000hi803AAA",
+			"enabled": true
+		},
+		{
+			"key": "billingCity",
+			"value": "Tucson",
+			"enabled": true
+		},
+		{
+			"key": "DeliveringHospital_Id",
+			"value": "0013l000020XBPqAAO",
+			"enabled": true
+		},
+		{
+			"key": "ExternalOptyName",
+			"value": "Abcde",
+			"enabled": true
+		},
+		{
+			"key": "ASSET_Name",
+			"value": "A-837327",
+			"enabled": true
+		},
+		{
+			"key": "Person_Account_Id",
+			"value": "0013l000020slVmAAI",
+			"enabled": true
+		},
+		{
+			"key": "Provider_Id",
+			"value": "0013l000020Yp8ZAAS",
+			"enabled": true
+		},
+		{
+			"key": "facilityName",
+			"value": "Cbr Systems, Inc.",
+			"enabled": true
+		},
+		{
+			"key": "Provider_Facility_Id",
+			"value": "a273l000004aVZeAAM",
+			"enabled": true
+		},
+		{
+			"key": "pf_fname",
+			"value": "Test",
+			"enabled": true
+		},
+		{
+			"key": "pf_lname",
+			"value": "Case",
+			"enabled": true
+		},
+		{
+			"key": "oc_dob",
+			"value": "1990-01-01",
+			"enabled": true
+		},
+		{
+			"key": "oc_fname",
+			"value": "MomFirstName1",
+			"enabled": true
+		},
+		{
+			"key": "oc_lname",
+			"value": "MomLastName",
+			"enabled": true
+		}
+	],
+	"name": "My Workspace Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2020-09-29T08:32:59.769Z",
+	"_postman_exported_using": "Postman/7.33.1"
+}
